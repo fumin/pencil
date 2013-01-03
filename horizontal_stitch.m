@@ -1,4 +1,8 @@
 function Istitched = horizontal_stitch(I,width)
+% Continuously repeat the image I horizontally until the width of the
+% resulting image is 'width'.
+% We use alpha blending to smooth the borders in the replication 
+%
 % I must be within 0 and 1
 Istitched = I;
 while size(Istitched,2)<width

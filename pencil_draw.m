@@ -1,4 +1,35 @@
 function Ipencil = pencil_draw(I)
+% The algorithm is as follows:
+% 1. Compute the outline sketch 'S'
+%      * Prepare the 8 directional line segment images, 'L', 
+%        all with width and height 'line_len', which is around 1/30 of the
+%        input image I's width
+%      * Compute the gradient of the input image which is 'Imag'
+%      * Generate the pixel classification 'C' of the 8 directions
+%      * Convolute the 8 'C's and 'L's to obtain our final outline sketch 'S'
+% 2. Compute the texture tone drawing 'T'
+%      * Prepare 'Jadjusted' which is the adjusted the raw image 'J'
+%        against the natural histogram of typical pencil drawings.
+%      * Repetitively stitch our base texture image to the size of our raw image.
+%        The result is 'Jtexture', our base texture background. 
+%      * Solve for 'beta', the number of times we should draw the texture.
+%        'beta' should have the same width and height as our raw image 'J':
+%          * Although beta is two dimensional, see it as an
+%            one dimensional column 'b' with length size(J,1)*size(J,2).
+%            The same goes for 'Jadjusted', whose one dimensional column
+%            representation is 'Ja'.
+%          * Our minimization objective function is:
+%            |log(Jtexture_diag)*b - log(Ja)|^2 + lambda*(|dx*b|^2+|dy*b|^2)
+%            Where 'Jtexture_diag' is a diagonal square matrix whose
+%            width equals the length of 'b' and with
+%            Jtexture's column representation at its diagonals.
+%            'dx' and 'dy' are square matrices that represent
+%            image pixel differences at the x and y directions.
+%          * Apparently, 'Jtexture_diag', 'dx' and 'dy' are all matrices
+%            of extreme size, therefore they should be sparse matrices.
+%      * Our desired texture tone drawing 'T' is Jtexture.^beta 
+% 3. Combine 'S' and 'T'
+%
 % Usage: imshow(pencil_draw(imread('img/sign.png')))
 if length(size(I)) == 3
     J = rgb2gray(I);
@@ -6,6 +37,10 @@ else
     J = I;
 end
 
+% ================================================
+% Compute the outline sketch 'S'
+% ================================================
+% calculate 'line_len', the length of the line segments
 line_len_double = min([size(J,1), size(J,2)]) / 30;
 if mod(floor(line_len_double), 2)
     line_len = floor(line_len_double);
@@ -14,11 +49,12 @@ else
 end
 half_line_len = (line_len + 1) / 2;
 
+% compute the image gradient 'Imag'
 Ix = conv2(im2double(J), [1,-1;1,-1], 'same');
 Iy = conv2(im2double(J), [1,1;-1,-1], 'same');
 Imag = sqrt(Ix.*Ix + Iy.*Iy);
 
-% create the lines L
+% create the 8 directional line segments L
 L = zeros(line_len, line_len, 8);
 for n=0:7
     if n == 0 || n == 1 || n == 2 || n == 7
@@ -63,6 +99,10 @@ Sp = sum(Spn, 3);
 Sp = (Sp - min(Sp(:))) / (max(Sp(:)) - min(Sp(:)));
 S = 1 - Sp;
 
+
+% ==============================================
+% Compute the texture tone drawing 'T'
+% ==============================================
 % new tone adjusted image
 Jadjusted = natural_histogram_matching(J);
 
@@ -106,6 +146,8 @@ Jadjusted1d = log(reshape(Jadjusted',1,[])');
 beta1d = (Jtsparse'*Jtsparse + 2*(dx'*dx + dy'*dy))\(Jtsparse'*Jadjusted1d);
 beta = reshape(beta1d, size(J,2), size(J,1))';
 
+% compute the texture tone image 'T' and combine it with the outline sketch
+% to come out with the final result 'Ipencil'
 T = Jtexture .^ beta;
 T = (T - min(T(:))) / (max(T(:)) - min(T(:)));
 Ipencil = S.*T;
