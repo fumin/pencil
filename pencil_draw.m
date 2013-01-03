@@ -1,6 +1,10 @@
-function Ipencil = pencil_draw(file_name)
-I = imread(file_name);
-J = rgb2gray(I);
+function Ipencil = pencil_draw(I)
+% Usage: imshow(pencil_draw(imread('img/sign.png')))
+if length(size(I)) == 3
+    J = rgb2gray(I);
+else
+    J = I;
+end
 
 line_len_double = min([size(J,1), size(J,2)]) / 30;
 if mod(floor(line_len_double), 2)
