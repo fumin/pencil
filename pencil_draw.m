@@ -33,15 +33,17 @@ function Ipencil = pencil_draw(I)
 % Usage: imshow(pencil_draw(imread('img/sign.png')))
 if length(size(I)) == 3
     J = rgb2gray(I);
+    type = 'black';
 else
     J = I;
+    type = 'colour';
 end
 
 % ================================================
 % Compute the outline sketch 'S'
 % ================================================
 % calculate 'line_len', the length of the line segments
-line_len_double = min([size(J,1), size(J,2)]) / 30;
+line_len_double = min([size(J,1), size(J,2)]) / 100;
 if mod(floor(line_len_double), 2)
     line_len = floor(line_len_double);
 else
@@ -104,11 +106,11 @@ S = 1 - Sp;
 % Compute the texture tone drawing 'T'
 % ==============================================
 % new tone adjusted image
-Jadjusted = natural_histogram_matching(J);
+Jadjusted = natural_histogram_matching(J,type);
 
 % stich pencil texture image
 texture = imread('texture.jpg');
-texture = im2double(imresize(texture(200:1600,200:2300), 0.2));
+texture = im2double(imresize(texture(200:1600,200:2300), 0.2*min([size(J,1),size(J,2)])/1024));
 Jtexture = vertical_stitch(horizontal_stitch(texture,size(J,2)), size(J,1));
 
 % solve for beta
