@@ -22,9 +22,11 @@ p2 = @(x) 1 / (256 - 105) * (heaviside(x-105) - heaviside(x-256));
 p3 = @(x) 1 / sqrt(2*pi*11)*exp(-((x-90)^2)/(2*121));
 
 if strcmp(type,'colour')
-    p = @(x) (52*p1(x) + 37*p2(x) + 11*p3(x));
-else
+    %p = @(x) (52*p1(x) + 37*p2(x) + 11*p3(x));
     p = @(x) (62*p1(x) + 30*p2(x) + 5*p3(x));
+else
+    %p = @(x) (62*p1(x) + 30*p2(x) + 5*p3(x));
+    p = @(x) (76*p1(x) + 22*p2(x) + 2*p3(x));
 end
 
 prob = zeros(1, 256); histo = zeros(1, 256);
