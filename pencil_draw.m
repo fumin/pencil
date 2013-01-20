@@ -34,6 +34,9 @@ function Ipencil = pencil_draw(I)
 % Constants:
 line_len_divisor = 40; % larger for a shorter line fragment
 line_thickness_divisor = 8; % larger for thiner outline sketches
+lambda = 2; % larger for smoother tonal mappings
+texture_resize_ratio = 0.2;
+texture_file_name = 'textures/texture.jpg';
 
 if length(size(I)) == 3
     J = rgb2gray(I);
@@ -113,8 +116,9 @@ S = 1 - Sp;
 Jadjusted = natural_histogram_matching(J,type);
 
 % stich pencil texture image
-texture = imread('texture.jpg');
-texture = im2double(imresize(texture(200:1600,200:2300), 0.2*min([size(J,1),size(J,2)])/1024));
+texture = imread(texture_file_name);
+texture = texture(100:size(texture,1)-100,100:size(texture,2)-100);
+texture = im2double(imresize(texture, texture_resize_ratio*min([size(J,1),size(J,2)])/1024));
 Jtexture = vertical_stitch(horizontal_stitch(texture,size(J,2)), size(J,1));
 
 % solve for beta
@@ -149,7 +153,7 @@ dy = sparse(i,j,s,sizz,sizz,nzmax);
 Jtexture1d = log(reshape(Jtexture',1,[]));
 Jtsparse = spdiags(Jtexture1d',0,sizz,sizz);
 Jadjusted1d = log(reshape(Jadjusted',1,[])');
-beta1d = (Jtsparse'*Jtsparse + 2*(dx'*dx + dy'*dy))\(Jtsparse'*Jadjusted1d);
+beta1d = (Jtsparse'*Jtsparse + lambda*(dx'*dx + dy'*dy))\(Jtsparse'*Jadjusted1d);
 beta = reshape(beta1d, size(J,2), size(J,1))';
 
 % compute the texture tone image 'T' and combine it with the outline sketch
