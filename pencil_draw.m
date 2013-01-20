@@ -32,7 +32,7 @@ function Ipencil = pencil_draw(I)
 %
 % Usage: imshow(pencil_draw(imread('img/sign.png')))
 % Constants:
-line_len_divisor = 40; % larger for a shorter line fragment
+line_len_divisor = 100; % larger for a shorter line fragment
 line_thickness_divisor = 8; % larger for thiner outline sketches
 lambda = 2; % larger for smoother tonal mappings
 texture_resize_ratio = 0.2;

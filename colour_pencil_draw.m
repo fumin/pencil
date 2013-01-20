@@ -1,6 +1,6 @@
-function R = colour_pencil_draw(file_name)
-% Usage: imshow(colour_pencil_draw('img/sign.png'))
-Iruv = rgb2ycbcr(imread(file_name));
+function R = colour_pencil_draw(I)
+% Usage: imshow(colour_pencil_draw(imread('img/sign.png')))
+Iruv = rgb2ycbcr(I);
 Ypencil = pencil_draw(Iruv(:,:,1));
 
 new_Iruv = Iruv;
