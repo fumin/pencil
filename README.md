@@ -6,5 +6,8 @@ implementation of http://www.cse.cuhk.edu.hk/~leojia/projects/pencilsketch/penci
 * colour pencil drawing: `imshow(colour_pencil_draw(imread('photo.jpg')));`
 * to draw all files in a folder please see draw_all.m
 
-# License
+## License
 GPL v3
+
+## Todos
+* coloured outline sketches
