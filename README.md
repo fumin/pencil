@@ -7,7 +7,8 @@ implementation of http://www.cse.cuhk.edu.hk/~leojia/projects/pencilsketch/penci
 * to draw all files in a folder please see draw_all.m
 
 ## License
-GPL v3
+Copyright 2013 Awaw Fumin awawfumin@gmail.com  
+Licensed under GNU General Public License v3
 
 ## Todos
 * coloured outline sketches
