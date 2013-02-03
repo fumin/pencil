@@ -32,11 +32,12 @@ function Ipencil = pencil_draw(I)
 %
 % Usage: imshow(pencil_draw(imread('img/sign.png')))
 % Constants:
-line_len_divisor = 40; % larger for a shorter line fragment
-line_thickness_divisor = 8; % larger for thiner outline sketches
-lambda = 2; % larger for smoother tonal mappings
-texture_resize_ratio = 0.2;
-texture_file_name = 'textures/texture.jpg';
+line_len_divisor = 40; % larger for a shorter line fragment (10-100)
+line_thickness_divisor = 8; % larger for thiner outline sketches (2-10)
+lambda = 2; % larger for smoother tonal mappings (0.1-5)
+texture_resize_ratio = 0.2; % (0.1-1)
+texture_file_name = 'textures/texture.jpg'; % (we can choose different texture)
+% natural_histogram_matching.m line 25 and 28
 
 if length(size(I)) == 3
     J = rgb2gray(I);
