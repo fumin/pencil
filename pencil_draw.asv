@@ -1,4 +1,4 @@
-function Ipencil = pencil_draw(I,line_len_divisor,line_thickness_divisor,lambda,texture_resize_ratio,texture_file_name, col_coeff1,col_coeff2,col_coeff3,pen_coeff1,pen_coeff2,pen_coeff3)
+function Ipencil = pencil_draw(I,line_len_divisor,line_thickness_divisor,lambda,texture_resize_ratio,texture_file_name)
 % The algorithm is as follows:
 % 1. Compute the outline sketch 'S'
 %      * Prepare the 8 directional line segment images, 'L', 
@@ -114,7 +114,7 @@ S = 1 - Sp;
 % Compute the texture tone drawing 'T'
 % ==============================================
 % new tone adjusted image
-Jadjusted = natural_histogram_matching(J,type, col_coeff1,col_coeff2,col_coeff3,pen_coeff1,pen_coeff2,pen_coeff3);
+Jadjusted = natural_histogram_matching(J,type);
 
 % stich pencil texture image
 texture = imread(texture_file_name);
