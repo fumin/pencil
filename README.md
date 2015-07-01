@@ -6,6 +6,9 @@ implementation of http://www.cse.cuhk.edu.hk/~leojia/projects/pencilsketch/penci
 * colour pencil drawing: `imshow(colour_pencil_draw(imread('photo.jpg')));`
 * to draw all files in a folder please see draw_all.m
 
+## Demo
+http://future-graphics.herokuapp.com/
+
 ## License
 Copyright 2013 Awaw Fumin awawfumin@gmail.com  
 Licensed under GNU General Public License v3
