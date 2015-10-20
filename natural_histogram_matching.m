@@ -49,3 +49,13 @@ for y=1:size(I,1)
     end
 end
 Iadjusted = Iadjusted / 255;
+end
+
+
+function res = heaviside(x)
+    if x >= 0
+        res = x
+    else
+        res = 0
+    end
+end
