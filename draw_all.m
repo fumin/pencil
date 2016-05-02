@@ -1,3 +1,4 @@
+pkg load image
 files = dir('tmp/all/*.jpg');
 for d=1:length(files)
 file_name = fullfile('tmp/all', files(d).name);
