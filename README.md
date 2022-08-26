@@ -7,7 +7,7 @@ implementation of http://www.cse.cuhk.edu.hk/~leojia/projects/pencilsketch/penci
 * to draw all files in a folder please see draw_all.m
 
 ## Demo
-http://future-graphics.herokuapp.com/
+https://fumin.github.io/future-graphics
 
 ## License
 Copyright 2013 Awaw Fumin awawfumin@gmail.com  
